@@ -40,9 +40,9 @@ G4VPhysicalVolume* B1DetectorConstruction::Construct()
       G4cout << "--> Type: " << (*vit).type
                 << " Value: " << (*vit).value << G4endl;
     }
-    if (((*iter).first)->GetName() == "Telescope") {
+    if (((*iter).first)->GetName() == "Tracker") {
       sv = iter;
-      G4cout << "Final Volume " << ((*sv).first)->GetName() << G4endl;
+      G4cout << "Scoring Volume set to " << ((*sv).first)->GetName() << G4endl;
     }
   }
   G4cout << G4endl;

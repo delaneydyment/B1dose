@@ -41,11 +41,11 @@ B1PrimaryGeneratorAction::~B1PrimaryGeneratorAction()
 
 void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-  //this function is called at the begining of ecah event
+  //this function is called at the begining of each event
   //
 
   // In order to avoid dependence of PrimaryGeneratorAction
-  // on DetectorConstruction class we get Envelope volume
+  // on DetectorConstruction class we get Tracker volume
   // from G4LogicalVolumeStore.
   
   G4double envSizeXY = 0;
@@ -53,14 +53,21 @@ void B1PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   if (!fEnvelopeBox)
   {
+    G4cout << "PrimaryGenerator !fEnvelopeBox" << G4endl;
     G4LogicalVolume* envLV
       = G4LogicalVolumeStore::GetInstance()->GetVolume("Tracker");
-    if ( envLV ) fEnvelopeBox = dynamic_cast<G4Box*>(envLV->GetSolid());
+    G4cout << "PrimaryGenerator envLV Name: " << envLV->GetName() << G4endl;
+    if ( envLV ) {
+      G4cout << "assigned envLV" << G4endl;
+      fEnvelopeBox = dynamic_cast<G4Box*>(envLV->GetSolid());
+    }
   }
 
   if ( fEnvelopeBox ) {
     envSizeXY = fEnvelopeBox->GetXHalfLength()*2.;
     envSizeZ = fEnvelopeBox->GetZHalfLength()*2.;
+    G4cout << "fEnvelopeBox: envSizeXY=" << envSizeXY 
+      << " envSizeZ=" << envSizeZ << G4endl;
   }  
   else  {
     G4ExceptionDescription msg;

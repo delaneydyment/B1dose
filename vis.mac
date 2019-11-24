@@ -81,7 +81,7 @@
 #
 # Axes, scale, etc.
 #/vis/scene/add/scale   # Simple scale line
-/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
+#/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
 /vis/scene/add/eventID # Drawn at end of event
 #/vis/scene/add/date    # Date stamp
 #/vis/scene/add/logo2D  # Simple logo
@@ -101,9 +101,9 @@
 #
 # To get nice view
 # Make the "World" box invisible
-/vis/geometry/set/visibility World 0 false
+#/vis/geometry/set/visibility World 0 false
 # "Envelope" is transparent blue to represent water
-/vis/geometry/set/colour Envelope 0 0 0 1 .3
+#/vis/geometry/set/colour Envelope 0 0 0 1 .3
 /vis/viewer/set/style surface
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
@@ -114,3 +114,4 @@
 #
 # For file-based drivers, use this to create an empty detector view:
 #/vis/viewer/flush
+/gun/position 20 20 40
