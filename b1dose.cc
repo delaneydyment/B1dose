@@ -1,32 +1,3 @@
-//
-// ********************************************************************
-// * License and Disclaimer                                           *
-// *                                                                  *
-// * The  Geant4 software  is  copyright of the Copyright Holders  of *
-// * the Geant4 Collaboration.  It is provided  under  the terms  and *
-// * conditions of the Geant4 Software License,  included in the file *
-// * LICENSE and available at  http://cern.ch/geant4/license .  These *
-// * include a list of copyright holders.                             *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.  Please see the license in the file  LICENSE  and URL above *
-// * for the full disclaimer and the limitation of liability.         *
-// *                                                                  *
-// * This  code  implementation is the result of  the  scientific and *
-// * technical work of the GEANT4 collaboration.                      *
-// * By using,  copying,  modifying or  distributing the software (or *
-// * any work based  on the software)  you  agree  to acknowledge its *
-// * use  in  resulting  scientific  publications,  and indicate your *
-// * acceptance of all terms of the Geant4 Software license.          *
-// ********************************************************************
-//
-//
-/// \file exampleB1.cc
-/// \brief Main program of the B1 example
-
 #include "B1DetectorConstruction.hh"
 #include "B1ActionInitialization.hh"
 
@@ -43,15 +14,31 @@
 #include "G4UIExecutive.hh"
 
 #include "Randomize.hh"
+#include "G4GDMLParser.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 int main(int argc,char** argv)
 {
+  G4cout << G4endl;
+  G4cout << "Usage: dose <intput_gdml_file:mandatory>"
+         << G4endl;
+  G4cout << G4endl;
+
+  if (argc<2)
+  {
+     G4cout << "Error! Mandatory input file is not specified!" << G4endl;
+     G4cout << G4endl;
+     return -1;
+  }
+
+  G4GDMLParser parser;
+  parser.Read(argv[1]);
+
   // Detect interactive mode (if no arguments) and define UI session
   //
   G4UIExecutive* ui = 0;
-  if ( argc == 1 ) {
+  if ( argc == 2 ) {
     ui = new G4UIExecutive(argc, argv);
   }
 
@@ -69,7 +56,8 @@ int main(int argc,char** argv)
   // Set mandatory initialization classes
   //
   // Detector construction
-  runManager->SetUserInitialization(new B1DetectorConstruction());
+  B1DetectorConstruction* detector = new B1DetectorConstruction(parser);  
+  runManager->SetUserInitialization(detector);
 
   // Physics list
   G4VModularPhysicsList* physicsList = new QBBC;
@@ -81,7 +69,7 @@ int main(int argc,char** argv)
   
   // Initialize visualization
   //
-  G4VisManager* visManager = new G4VisExecutive;
+  G4VisManager* visManager = new G4VisExecutive("Quiet");
   // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
   // G4VisManager* visManager = new G4VisExecutive("Quiet");
   visManager->Initialize();
